@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/models/request/request.dart';
 import 'package:restaurant_app/provider/favorite_icon_provider.dart';
-import 'package:restaurant_app/provider/favorite_provider.dart';
+import 'package:restaurant_app/provider/local_database_provider.dart';
 
 class FavoriteIconButton extends StatefulWidget {
   final RestaurantList restaurantList;
@@ -16,34 +16,36 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   @override
   void initState() {
     super.initState();
-    final favoriteListProvider  = context.read<FavoriteProvider>();
+    final localDatabaseProvider = context.read<LocalDatabaseProvider>();
     final favoriteIconProvider = context.read<FavoriteIconProvider>();
 
-    Future.microtask(() {
-      final restoInList = favoriteListProvider.checkItemFavorite(
-        widget.restaurantList,
+    Future.microtask(() async {
+      await localDatabaseProvider.loadRestaurantById(widget.restaurantList.id);
+      final value = localDatabaseProvider.checkItemFavorite(
+        widget.restaurantList.id,
       );
-      favoriteIconProvider.isFavorite = restoInList;
+      favoriteIconProvider.isFavorite = value;
     });
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return IconButton.outlined(
-      onPressed: () {
-        // todo-03-bookmark-05: replace this state using provider
-        final favoriteListProvider = context.read<FavoriteProvider>();
+      onPressed: () async {
+        final localDatabaseProvider = context.read<LocalDatabaseProvider>();
         final favoriteIconProvider = context.read<FavoriteIconProvider>();
-        final isFormated = favoriteIconProvider.isFavorites;
+        final isFavorited = favoriteIconProvider.isFavorites;
 
-        if (isFormated) {
-          favoriteListProvider.removeBookmark(widget.restaurantList);
+        if (!isFavorited) {
+          await localDatabaseProvider.addFavorite(widget.restaurantList);
         } else {
-          favoriteListProvider.addBookmark(widget.restaurantList);
+          await localDatabaseProvider.removeRestaurantById(
+            widget.restaurantList.id,
+          );
         }
-        favoriteIconProvider.isFavorite = !isFormated;
+        favoriteIconProvider.isFavorite = !isFavorited;
+        localDatabaseProvider.loadAllRestaurant();
       },
       icon: Icon(
         context.watch<FavoriteIconProvider>().isFavorites

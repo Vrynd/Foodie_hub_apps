@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:restaurant_app/components/app_bar.dart';
 import 'package:restaurant_app/components/list_items.dart';
-import 'package:restaurant_app/provider/favorite_provider.dart';
+import 'package:restaurant_app/provider/local_database_provider.dart';
 import 'package:restaurant_app/routes/app_route.dart';
 
-class FavoriteScreen extends StatelessWidget {
+class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
+
+  @override
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
+}
+
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  @override
+  void initState() {
+    Future.microtask(() {
+      context.read<LocalDatabaseProvider>().loadAllRestaurant();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +33,9 @@ class FavoriteScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Consumer<FavoriteProvider>(
+      body: Consumer<LocalDatabaseProvider>(
         builder: (context, value, child) {
-          final favoriteList = value.favorites;
+          final favoriteList = value.restaurantList ?? [];
           return favoriteList.isNotEmpty
               ? ListView.builder(
                   padding: const EdgeInsets.symmetric(

@@ -43,7 +43,7 @@ class LocalDatabaseProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> loadRestaurantById(int id) async {
+  Future<void> loadRestaurantById(String id) async {
     try {
       _restaurant = await _service.getItemById(id);
       _message = "Your data is loaded";
@@ -54,7 +54,7 @@ class LocalDatabaseProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> removeRestaurantById(int id) async {
+  Future<void> removeRestaurantById(String id) async {
     try {
       await _service.removeItem(id);
 
@@ -64,5 +64,10 @@ class LocalDatabaseProvider extends ChangeNotifier {
       _message = "Failed to remove your data";
       notifyListeners();
     }
+  }
+
+  bool checkItemFavorite(String id) {
+    final isSameRestaurant = _restaurant?.id == id;
+    return isSameRestaurant;
   }
 }

@@ -48,7 +48,7 @@ class LocalDatabaseService {
     return result.map((data) => RestaurantList.fromJson(data)).toList();
   }
 
-  Future<RestaurantList?> getItemById(int id) async {
+  Future<RestaurantList?> getItemById(String id) async {
     final db = await _initializeDatabase();
 
     final results = await db.query(
@@ -61,7 +61,7 @@ class LocalDatabaseService {
     return results.isEmpty ? null : RestaurantList.fromJson(results.first);
   }
 
-  Future<int> removeItem(int id) async {
+  Future<int> removeItem(String id) async {
     final db = await _initializeDatabase();
 
     final result = await db.delete(
