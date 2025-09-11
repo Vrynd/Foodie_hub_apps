@@ -31,6 +31,18 @@ class LocalDatabaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> loadAllRestaurant() async {
+    try {
+      _restaurantList = await _service.getAllItem();
+      _restaurant = null;
+      _message = "All of your data is loaded";
+      notifyListeners();
+    } catch (e) {
+      _message = "Failed to load your all data";
+      notifyListeners();
+    }
+  }
+
   Future<void> loadRestaurantById(int id) async {
     try {
       _restaurant = await _service.getItemById(id);
@@ -53,5 +65,4 @@ class LocalDatabaseProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 }
