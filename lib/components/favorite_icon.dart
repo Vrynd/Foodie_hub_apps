@@ -33,7 +33,6 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   Widget build(BuildContext context) {
     return IconButton.outlined(
       onPressed: () {
-        // todo-03-bookmark-05: replace this state using provider
         final favoriteListProvider = context.read<FavoriteProvider>();
         final favoriteIconProvider = context.read<FavoriteIconProvider>();
         final isFormated = favoriteIconProvider.isFavorites;
