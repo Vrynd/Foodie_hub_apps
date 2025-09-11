@@ -38,8 +38,6 @@ class DetailItems extends StatelessWidget {
                           ),
                     ),
                   ),
-
-                  // ini icon favoritenya
                   FavoriteIconButton(
                     restaurantList: RestaurantList(
                       id: restaurantDetail.id,

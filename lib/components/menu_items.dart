@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/models/request/detail_request.dart';
 
 class MenuItems extends StatelessWidget {
-  final RestaurantMenus menus;
+  final RestaurantMenu menus;
   const MenuItems({super.key, required this.menus});
 
   @override

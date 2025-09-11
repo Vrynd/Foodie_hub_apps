@@ -6,7 +6,7 @@ class RestaurantDetail {
   String address;
   String pictureId;
   List<CategoryRestaurant> categories;
-  RestaurantMenus menus;
+  RestaurantMenu menus;
   double rating;
   List<Review> customerReviews;
 
@@ -23,23 +23,24 @@ class RestaurantDetail {
     required this.customerReviews,
   });
 
-  factory RestaurantDetail.fromJson(Map<String, dynamic> json) =>
-      RestaurantDetail(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        city: json["city"],
-        address: json["address"],
-        pictureId: json["pictureId"],
-        categories: List<CategoryRestaurant>.from(
-          json["categories"].map((x) => CategoryRestaurant.fromJson(x)),
-        ),
-        menus: RestaurantMenus.fromJson(json["menus"]),
-        rating: json["rating"]?.toDouble(),
-        customerReviews: List<Review>.from(
-          json["customerReviews"].map((x) => Review.fromJson(x)),
-        ),
-      );
+  factory RestaurantDetail.fromJson(Map<String, dynamic> json) {
+    return RestaurantDetail(
+      id: json["id"],
+      name: json["name"],
+      description: json["description"],
+      city: json["city"],
+      address: json["address"],
+      pictureId: json["pictureId"],
+      categories: List<CategoryRestaurant>.from(
+        json["categories"].map((x) => CategoryRestaurant.fromJson(x)),
+      ),
+      menus: RestaurantMenu.fromJson(json["menus"]),
+      rating: json["rating"]?.toDouble(),
+      customerReviews: List<Review>.from(
+        json["customerReviews"].map((x) => Review.fromJson(x)),
+      ),
+    );
+  }
 }
 
 class CategoryRestaurant {
@@ -52,14 +53,14 @@ class CategoryRestaurant {
   }
 }
 
-class RestaurantMenus {
+class RestaurantMenu {
   List<CategoryRestaurant> foods;
   List<CategoryRestaurant> drinks;
 
-  RestaurantMenus({required this.foods, required this.drinks});
+  RestaurantMenu({required this.foods, required this.drinks});
 
-  factory RestaurantMenus.fromJson(Map<String, dynamic> json) {
-    return RestaurantMenus(
+  factory RestaurantMenu.fromJson(Map<String, dynamic> json) {
+    return RestaurantMenu(
       foods: List<CategoryRestaurant>.from(
         json["foods"].map((x) => CategoryRestaurant.fromJson(x)),
       ),

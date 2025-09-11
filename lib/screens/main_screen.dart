@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
         surfaceTintColor: Theme.of(context).colorScheme.onPrimary,
         selectedIndex: context.watch<IndexNavProvider>().indexBottomNavBar,
         onDestinationSelected: (index) {
-          context.read<IndexNavProvider>().setIndextBottomNavBar = index;
+          context.read<IndexNavProvider>().indextBottomNavBar = index;
         },
         destinations: const [
           NavigationDestination(

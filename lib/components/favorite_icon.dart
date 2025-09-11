@@ -23,7 +23,7 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
       final restoInList = favoriteListProvider.checkItemFavorite(
         widget.restaurantList,
       );
-      favoriteIconProvider.isBookmarked = restoInList;
+      favoriteIconProvider.isFavorite = restoInList;
     });
 
     super.initState();
@@ -43,7 +43,7 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
         } else {
           favoriteListProvider.addBookmark(widget.restaurantList);
         }
-        favoriteIconProvider.isBookmarked = !isFormated;
+        favoriteIconProvider.isFavorite = !isFormated;
       },
       icon: Icon(
         context.watch<FavoriteIconProvider>().isFavorites

@@ -5,7 +5,7 @@ class FavoriteIconProvider extends ChangeNotifier {
 
   bool get isFavorites => _isFavorited;
 
-  set isBookmarked(bool value) {
+  set isFavorite(bool value) {
     _isFavorited = value;
     notifyListeners();
   }

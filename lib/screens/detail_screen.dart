@@ -34,7 +34,7 @@ class _DetailScreenState extends State<DetailScreen> {
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       appBar: AppBarTemplate(
         title: Consumer<RestaurantDetailProvider>(
-          builder: (context, provider, child) {
+          builder: (context, provider, _) {
             final state = provider.resultState;
             return Text(
               state is DetailLoadedState ? state.data.name : 'Loading...',
