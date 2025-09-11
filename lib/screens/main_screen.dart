@@ -3,6 +3,9 @@ import 'package:restaurant_app/provider/index_nav_provider.dart';
 import 'package:restaurant_app/screens/favorite_screen.dart';
 import 'package:restaurant_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/screens/notification_screen.dart';
+import 'package:restaurant_app/screens/search_screen.dart';
+import 'package:restaurant_app/screens/setting_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,7 +22,11 @@ class _MainScreenState extends State<MainScreen> {
         builder: (context, value, child) {
           return switch (value.indexBottomNavBar) {
             0 => const HomeScreen(),
-            _ => const FavoriteScreen(),
+            1 => const SearchScreen(),
+            2 => const FavoriteScreen(),
+            3 => const NotificationScreen(),
+            4 => const SettingScreen(),
+            _ => const HomeScreen(),
           };
         },
       ),
@@ -37,10 +44,25 @@ class _MainScreenState extends State<MainScreen> {
             tooltip: "Home",
           ),
           NavigationDestination(
+            icon: Icon(Icons.search),
+            label: "Search",
+            tooltip: "Search"
+          ),
+          NavigationDestination(
             icon: Icon(Icons.favorite),
             label: "Favorites",
             tooltip: "Favorites",
           ),
+          NavigationDestination(
+            icon: Icon(Icons.notifications),
+            label: "Reminder",
+            tooltip: "Reminder",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+            tooltip: "Settings",
+          )
         ],
       ),
     );
