@@ -45,15 +45,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   itemCount: favoriteList.length,
                   itemBuilder: (context, index) {
                     final restoFav = favoriteList[index];
-                    return ListItems(
-                      restaurant: restoFav,
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          NavigationRoute.detailRoute.name,
-                          arguments: restoFav.id,
-                        );
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: ListItems(
+                        restaurant: restoFav,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            NavigationRoute.detailRoute.name,
+                            arguments: restoFav.id,
+                          );
+                        },
+                      ),
                     );
                   },
                 )
