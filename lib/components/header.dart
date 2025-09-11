@@ -30,6 +30,10 @@ class Header extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
+          if (child != null) ...[
+            const SizedBox.square(dimension: 20),
+            child ?? Container(),
+          ],
         ],
       ),
     );
