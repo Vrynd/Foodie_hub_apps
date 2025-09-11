@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/data/database/local_database_service.dart';
 import 'package:restaurant_app/provider/detail_provider.dart';
 import 'package:restaurant_app/provider/favorite_icon_provider.dart';
-import 'package:restaurant_app/provider/favorite_provider.dart';
+// import 'package:restaurant_app/provider/favorite_provider.dart';
 import 'package:restaurant_app/provider/index_nav_provider.dart';
 import 'package:restaurant_app/provider/list_provider.dart';
+import 'package:restaurant_app/provider/local_database_provider.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
 import 'package:restaurant_app/screens/main_screen.dart';
 import 'package:restaurant_app/themes/app_theme.dart';
@@ -16,11 +18,17 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => IndexNavProvider()),
-        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+        // ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+        Provider(create: (context) => LocalDatabaseService()),
+        ChangeNotifierProvider(
+          create: (context) =>
+              LocalDatabaseProvider(context.read<LocalDatabaseService>()),
+        ),
         ChangeNotifierProvider(create: (context) => FavoriteIconProvider()),
         Provider(create: (context) => ApiService()),
         ChangeNotifierProvider(
-          create: (context) => RestaurantListProvider(context.read<ApiService>()),
+          create: (context) =>
+              RestaurantListProvider(context.read<ApiService>()),
         ),
         ChangeNotifierProvider(
           create: (context) =>
