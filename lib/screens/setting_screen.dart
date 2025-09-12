@@ -30,8 +30,20 @@ class _SettingScreenState extends State<SettingScreen> {
 
     await themeProvider.saveSettingValue(set);
 
+    final modeText = isDarkMode ? "Dark" : "Light";
     scaffoldMessenger.showSnackBar(
-      SnackBar(content: Text(themeProvider.message)),
+      SnackBar(
+        content: Text(
+          "Anda sedang berada dalam mode $modeText",
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        duration: const Duration(seconds: 1),
+      ),
     );
   }
 
