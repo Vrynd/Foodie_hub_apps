@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/components/app_bar.dart';
 import 'package:restaurant_app/components/header.dart';
 import 'package:restaurant_app/data/models/setting.dart';
-import 'package:restaurant_app/provider/theme_provider.dart';
+import 'package:restaurant_app/provider/theme_preferences_provider.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});

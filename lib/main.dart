@@ -9,7 +9,7 @@ import 'package:restaurant_app/provider/favorite_icon_provider.dart';
 import 'package:restaurant_app/provider/index_nav_provider.dart';
 import 'package:restaurant_app/provider/list_provider.dart';
 import 'package:restaurant_app/provider/local_database_provider.dart';
-import 'package:restaurant_app/provider/theme_provider.dart';
+import 'package:restaurant_app/provider/theme_preferences_provider.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
 import 'package:restaurant_app/screens/main_screen.dart';
 import 'package:restaurant_app/themes/app_theme.dart';
