@@ -102,8 +102,8 @@ class _MainScreenState extends State<MainScreen> {
               size: 28,
               color: Theme.of(context).colorScheme.primary,
             ),
-            label: "Info",
-            tooltip: "Info",
+            label: "Reminder",
+            tooltip: "Reminder",
           ),
           NavigationDestination(
             icon: Icon(

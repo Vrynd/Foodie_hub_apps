@@ -30,7 +30,7 @@ class EmptyFavorite extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(
                   context,
-                ).colorScheme.surfaceContainerLowest,
+                ).colorScheme.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
