@@ -51,6 +51,13 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
         context.watch<FavoriteIconProvider>().isFavorites
             ? Icons.favorite_rounded
             : Icons.favorite_border_rounded,
+        color: context.watch<FavoriteIconProvider>().isFavorites
+            ? (Theme.of(context).brightness == Brightness.light
+                  ? Colors.red.shade700
+                  : Colors.red.shade300)
+            : (Theme.of(context).brightness == Brightness.light
+                  ? Colors.grey.shade400
+                  : Colors.grey.shade500),
       ),
     );
   }

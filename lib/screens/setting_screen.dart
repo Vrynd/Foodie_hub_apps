@@ -52,7 +52,7 @@ class _SettingScreenState extends State<SettingScreen> {
     final themeProvider = context.watch<ThemeProvider>();
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       appBar: AppBarTemplate(
         title: Text(
           'FoodieHub',
@@ -72,7 +72,7 @@ class _SettingScreenState extends State<SettingScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(16.0),
-                color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
               ),
               child: Column(
                 children: [
@@ -84,13 +84,13 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     title: Text(
                       "Dark Mode",
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     subtitle: Text(
                       "Enable dark theme",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
@@ -112,13 +112,13 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     title: Text(
                       "Notifications",
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     subtitle: Text(
                       "Get updates about new restaurants",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),

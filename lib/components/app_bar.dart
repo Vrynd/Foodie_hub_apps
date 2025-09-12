@@ -17,9 +17,9 @@ class AppBarTemplate extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       scrolledUnderElevation: 2.0,
-      surfaceTintColor: Theme.of(context).colorScheme.onPrimary,
+      surfaceTintColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       shadowColor: Theme.of(context).colorScheme.shadow,
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       leading: leading,
       actions: action,
       centerTitle: centerTitle,

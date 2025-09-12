@@ -13,7 +13,7 @@ class Header extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(16.0),
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+        color: Theme.of(context).colorScheme.surfaceContainer,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

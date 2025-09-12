@@ -16,7 +16,7 @@ class DetailItems extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(16.0),
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,10 +56,12 @@ class DetailItems extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.location_city_outlined,
-                    size: 24,
-                    color: Colors.grey,
+                    size: 26,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.grey.shade700
+                        : Colors.grey.shade400,
                   ),
-                  const SizedBox.square(dimension: 6),
+                  const SizedBox.square(dimension: 8),
                   Text(
                     restaurantDetail.city,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -72,8 +74,14 @@ class DetailItems extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.location_on_outlined, size: 24, color: Colors.red),
-                  const SizedBox.square(dimension: 6),
+                  Icon(
+                    Icons.location_on_outlined,
+                    size: 26,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Color(0xFF3C6838)
+                        : Color(0xFF81C784),
+                  ),
+                  const SizedBox.square(dimension: 8),
                   Text(
                     restaurantDetail.address,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(

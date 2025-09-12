@@ -26,14 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       appBar: AppBarTemplate(
         title: Text(
           'FoodieHub',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
             color: Theme.of(context).colorScheme.primary,
           ),
-        ),
+      ),
       ),
       body: SafeArea(
         child: Consumer<RestaurantListProvider>(

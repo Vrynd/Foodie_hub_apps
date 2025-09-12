@@ -31,7 +31,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       appBar: AppBarTemplate(
         title: Consumer<RestaurantDetailProvider>(
           builder: (context, provider, _) {
@@ -49,7 +49,7 @@ class _DetailScreenState extends State<DetailScreen> {
           icon: Icon(
             Icons.arrow_back,
             size: 28,
-            color: Theme.of(context).colorScheme.outline,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
         centerTitle: true,

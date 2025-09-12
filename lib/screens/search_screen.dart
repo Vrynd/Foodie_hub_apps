@@ -8,7 +8,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       appBar: AppBarTemplate(
         title: Text(
           'FoodieHub',
@@ -49,7 +49,7 @@ class SearchScreen extends StatelessWidget {
                         ),
                       ),
                       backgroundColor: WidgetStatePropertyAll(
-                        Theme.of(context).colorScheme.surfaceContainerLow,
+                        Theme.of(context).colorScheme.surfaceContainerLowest,
                       ),
                       side: WidgetStatePropertyAll(
                         BorderSide(
