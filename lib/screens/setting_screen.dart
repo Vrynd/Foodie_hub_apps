@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/components/app_bar.dart';
 import 'package:restaurant_app/components/header.dart';
+import 'package:restaurant_app/data/models/setting.dart';
+import 'package:restaurant_app/provider/theme_provider.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -10,11 +13,32 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  bool darkMode = false;
-  bool notifications = true;
+  @override
+  void initState() {
+    super.initState();
+    final themePreferencesProvider = context.read<ThemeProvider>();
+
+    Future.microtask(() async {
+      themePreferencesProvider.getSettingValue();
+    });
+  }
+
+  Future<void> saveAction(bool isDarkMode) async {
+    final set = Setting(isDarkMode: isDarkMode);
+    final themeProvider = context.read<ThemeProvider>();
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+    await themeProvider.saveSettingValue(set);
+
+    scaffoldMessenger.showSnackBar(
+      SnackBar(content: Text(themeProvider.message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       appBar: AppBarTemplate(
@@ -59,17 +83,13 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     ),
                     trailing: Switch(
-                      value: darkMode,
-                      onChanged: (val) {
-                        setState(() {
-                          darkMode = val;
-                        });
-                      },
+                      value: themeProvider.isDarkMode,
+                      onChanged: saveAction,
                     ),
                   ),
                   Divider(
                     height: 0,
-                    indent: 58, 
+                    indent: 58,
                     color: Theme.of(context).colorScheme.outlineVariant,
                   ),
                   ListTile(
@@ -90,14 +110,14 @@ class _SettingScreenState extends State<SettingScreen> {
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    trailing: Switch(
-                      value: notifications,
-                      onChanged: (val) {
-                        setState(() {
-                          notifications = val;
-                        });
-                      },
-                    ),
+                    // trailing: Switch(
+                    //   value: notifications,
+                    //   onChanged: (val) {
+                    //     setState(() {
+                    //       notifications = val;
+                    //     });
+                    //   },
+                    // ),
                   ),
                 ],
               ),
