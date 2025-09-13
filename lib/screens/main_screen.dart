@@ -4,7 +4,6 @@ import 'package:restaurant_app/screens/favorite_screen.dart';
 import 'package:restaurant_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/screens/notification_screen.dart';
-import 'package:restaurant_app/screens/search_screen.dart';
 import 'package:restaurant_app/screens/setting_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -22,10 +21,9 @@ class _MainScreenState extends State<MainScreen> {
         builder: (context, value, child) {
           return switch (value.indexBottomNavBar) {
             0 => const HomeScreen(),
-            1 => const SearchScreen(),
-            2 => const FavoriteScreen(),
-            3 => const NotificationScreen(),
-            4 => const SettingScreen(),
+            1 => const FavoriteScreen(),
+            2 => const NotificationScreen(),
+            3 => const SettingScreen(),
             _ => const HomeScreen(),
           };
         },
@@ -73,20 +71,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               label: "Home",
               tooltip: "Home",
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.search_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              selectedIcon: Icon(
-                Icons.search_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              label: "Search",
-              tooltip: "Search",
             ),
             NavigationDestination(
               icon: Icon(
