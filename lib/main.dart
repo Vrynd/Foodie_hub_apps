@@ -24,7 +24,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        Provider(create: (context) => LocalNotificationService()..init()),
+        Provider(
+          create: (context) => LocalNotificationService()
+            ..init()
+            ..configureLocalTimeZone(),
+        ),
         Provider(create: (context) => ThemePreferencesService(prefs)),
         ChangeNotifierProvider(
           create: (context) =>
