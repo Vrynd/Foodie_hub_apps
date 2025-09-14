@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/database/local_database_service.dart';
+import 'package:restaurant_app/data/service/http_service.dart';
 import 'package:restaurant_app/data/service/local_notification_service.dart';
 import 'package:restaurant_app/data/service/schedule_preferences_service.dart';
 import 'package:restaurant_app/data/service/theme_preferences_service.dart';
@@ -26,6 +27,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        Provider(create: (context) => HttpService()),
+
         Provider(
           create: (context) => LocalNotificationService()
             ..init()
