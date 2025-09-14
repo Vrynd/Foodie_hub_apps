@@ -17,6 +17,9 @@ class ThemePreferencesService {
   }
 
   Setting getThemeValue() {
-    return Setting(isDarkMode: _preferences.getBool(_keyTheme) ?? false);
+    return Setting(
+      isDarkMode: _preferences.getBool(_keyTheme) ?? false,
+      isEnabled: false,
+    );
   }
 }

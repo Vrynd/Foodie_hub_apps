@@ -3,13 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/database/local_database_service.dart';
 import 'package:restaurant_app/data/service/local_notification_service.dart';
+import 'package:restaurant_app/data/service/schedule_preferences_service.dart';
 import 'package:restaurant_app/data/service/theme_preferences_service.dart';
 import 'package:restaurant_app/provider/detail_provider.dart';
 import 'package:restaurant_app/provider/favorite_icon_provider.dart';
-// import 'package:restaurant_app/provider/favorite_provider.dart';
 import 'package:restaurant_app/provider/index_nav_provider.dart';
 import 'package:restaurant_app/provider/list_provider.dart';
 import 'package:restaurant_app/provider/local_database_provider.dart';
+import 'package:restaurant_app/provider/local_notification_provider.dart';
+import 'package:restaurant_app/provider/schedule_preference_provider.dart';
 import 'package:restaurant_app/provider/theme_preferences_provider.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
 import 'package:restaurant_app/screens/main_screen.dart';
@@ -29,24 +31,46 @@ void main() async {
             ..init()
             ..configureLocalTimeZone(),
         ),
+
+        ChangeNotifierProvider(
+          create: (context) => LocalNotificationProvider(
+            context.read<LocalNotificationService>(),
+          )..requestPermission(),
+        ),
+
         Provider(create: (context) => ThemePreferencesService(prefs)),
+        Provider(create: (context) => SchedulePreferencesService(prefs)),
+
         ChangeNotifierProvider(
           create: (context) =>
               ThemeProvider(context.read<ThemePreferencesService>()),
         ),
+
+        ChangeNotifierProvider(
+          create: (context) => ScheduleProvider(
+            context.read<SchedulePreferencesService>(),
+            context.read<LocalNotificationProvider>(),
+          ),
+        ),
+
         ChangeNotifierProvider(create: (context) => IndexNavProvider()),
-        // ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+
         Provider(create: (context) => LocalDatabaseService()),
+
         ChangeNotifierProvider(
           create: (context) =>
               LocalDatabaseProvider(context.read<LocalDatabaseService>()),
         ),
+
         ChangeNotifierProvider(create: (context) => FavoriteIconProvider()),
+
         Provider(create: (context) => ApiService()),
+
         ChangeNotifierProvider(
           create: (context) =>
               RestaurantListProvider(context.read<ApiService>()),
         ),
+
         ChangeNotifierProvider(
           create: (context) =>
               RestaurantDetailProvider(context.read<ApiService>()),
