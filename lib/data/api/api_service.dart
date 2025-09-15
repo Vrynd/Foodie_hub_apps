@@ -13,7 +13,7 @@ class ApiService {
       if (response.statusCode == 200) {
         return RestaurantListResponse.fromJson(jsonDecode(response.body));
       } else {
-        throw Exception('Failed to load tourism list');
+        throw Exception('Failed to load restaurant list');
       }
     } catch (e) {
       rethrow;
@@ -27,7 +27,7 @@ class ApiService {
       if (response.statusCode == 200) {
         return RestaurantDetailResponse.fromJson(jsonDecode(response.body));
       } else {
-        throw Exception('Failed to load tourism list');
+        throw Exception('Failed to load restaurant detail for id: $id');
       }
     } catch (e) {
       rethrow;
