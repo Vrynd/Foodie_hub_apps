@@ -12,6 +12,9 @@ import 'package:timezone/timezone.dart' as tz;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+final StreamController<String?> selectNotificationStream =
+    StreamController<String?>.broadcast();
+
 class LocalNotificationService {
   final HttpService _httpService;
 
@@ -24,7 +27,15 @@ class LocalNotificationService {
       iOS: DarwinInitializationSettings(),
     );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (notificationResponse) {
+        final payload = notificationResponse.payload;
+        if (payload != null && payload.isNotEmpty) {
+          selectNotificationStream.add(payload);
+        }
+      },
+    );
   }
 
   Future<bool> _isAndroidPermissionGranted() async {

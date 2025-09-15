@@ -7,6 +7,7 @@ import 'package:restaurant_app/components/header_detail.dart';
 import 'package:restaurant_app/components/menu_items.dart';
 import 'package:restaurant_app/components/review.dart';
 import 'package:restaurant_app/provider/detail_provider.dart';
+import 'package:restaurant_app/provider/payload_provider.dart';
 import 'package:restaurant_app/resource/detail_result_state.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final data = context.read<PayloadProvider>().payload;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       appBar: AppBarTemplate(
@@ -85,6 +87,11 @@ class _DetailScreenState extends State<DetailScreen> {
                       MenuItems(menus: restaurant.menus),
                       const SizedBox(height: 10),
                       CustomerReview(reviews: restaurant.customerReviews),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Payload: $data",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ],
                   ),
                 ),

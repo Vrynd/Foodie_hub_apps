@@ -12,6 +12,7 @@ import 'package:restaurant_app/provider/index_nav_provider.dart';
 import 'package:restaurant_app/provider/list_provider.dart';
 import 'package:restaurant_app/provider/local_database_provider.dart';
 import 'package:restaurant_app/provider/local_notification_provider.dart';
+import 'package:restaurant_app/provider/payload_provider.dart';
 import 'package:restaurant_app/provider/schedule_preference_provider.dart';
 import 'package:restaurant_app/provider/theme_preferences_provider.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
@@ -24,6 +25,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
 
+  final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin
+      .getNotificationAppLaunchDetails();
+
+  String route = NavigationRoute.mainRoute.name;
+  String? payload;
+
+  if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+    final notificationResponse =
+        notificationAppLaunchDetails!.notificationResponse;
+    route = NavigationRoute.detailRoute.name;
+    payload = notificationResponse?.payload;
+  }
+
   runApp(
     MultiProvider(
       providers: [
@@ -33,6 +47,10 @@ void main() async {
           create: (context) => LocalNotificationService()
             ..init()
             ..configureLocalTimeZone(),
+        ),
+
+        ChangeNotifierProvider(
+          create: (context) => PayloadProvider(payload: payload),
         ),
 
         ChangeNotifierProvider(
@@ -79,13 +97,14 @@ void main() async {
               RestaurantDetailProvider(context.read<ApiService>()),
         ),
       ],
-      child: const MyApp(),
+      child: MyApp(initialRoute: route),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +116,17 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: provider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          initialRoute: NavigationRoute.mainRoute.name,
+          initialRoute: initialRoute,
           routes: {
             NavigationRoute.mainRoute.name: (context) => const MainScreen(),
-            NavigationRoute.detailRoute.name: (context) => DetailScreen(
-              restaurantId:
-                  ModalRoute.of(context)?.settings.arguments as String,
-            ),
+            NavigationRoute.detailRoute.name: (context) {
+              final payload = context.watch<PayloadProvider>().payload;
+              if (payload != null) {
+                return DetailScreen(restaurantId: payload);
+              } else {
+                return const MainScreen();
+              }
+            },
           },
         );
       },

@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/components/app_bar.dart';
 import 'package:restaurant_app/components/header.dart';
 import 'package:restaurant_app/components/list_items.dart';
+import 'package:restaurant_app/data/service/local_notification_service.dart';
 import 'package:restaurant_app/provider/list_provider.dart';
+import 'package:restaurant_app/provider/payload_provider.dart';
 import 'package:restaurant_app/resource/list_result_state.dart';
 import 'package:restaurant_app/routes/app_route.dart';
 
@@ -15,12 +17,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void _configureSelectNotificationSubject() {
+    selectNotificationStream.stream.listen((String? payload) {
+      context.read<PayloadProvider>().payload = payload;
+      Navigator.pushNamed(
+        context,
+        NavigationRoute.detailRoute.name,
+        arguments: payload,
+      );
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _configureSelectNotificationSubject();
     Future.microtask(() {
       context.read<RestaurantListProvider>().fetchRestaurantList();
     });
+  }
+
+  @override
+  void dispose() {
+    selectNotificationStream.close();
+    super.dispose();
   }
 
   @override
@@ -33,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
             color: Theme.of(context).colorScheme.primary,
           ),
-      ),
+        ),
       ),
       body: SafeArea(
         child: Consumer<RestaurantListProvider>(
@@ -54,19 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (index == 0) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Header(),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                      ],
+                      children: [const Header(), const SizedBox(height: 16)],
                     );
                   }
                   final restaurant = restaurantList[index - 1];
                   return Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 16.0,
-                    ),
+                    padding: const EdgeInsets.only(bottom: 16.0),
                     child: ListItems(
                       restaurant: restaurant,
                       onTap: () {
