@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/data/service/http_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -8,6 +13,11 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class LocalNotificationService {
+  final HttpService _httpService;
+
+  LocalNotificationService({HttpService? httpService})
+    : _httpService = httpService ?? HttpService();
+
   Future<void> init() async {
     const initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -71,16 +81,7 @@ class LocalNotificationService {
 
   tz.TZDateTime _nextInstanceOfElevenAM() {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day,
-      11,
-    );
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(seconds: 1));
-    }
+    final tz.TZDateTime scheduledDate = now.add(const Duration(seconds: 10));
     return scheduledDate;
   }
 
@@ -89,13 +90,39 @@ class LocalNotificationService {
     String channelId = "1",
     String channelName = "Daily Reminder",
   }) async {
+    final datetimeSchedule = _nextInstanceOfElevenAM();
+
+    final apiService = ApiService();
+    final response = await apiService.getRestaurantList();
+    final restaurant = response.restaurants;
+
+    final random = Random();
+    final randomRestaurant = restaurant[random.nextInt(restaurant.length)];
+    final restaurantId = randomRestaurant.id;
+    final restaurantName = randomRestaurant.name;
+    final restaurantImage =
+        "https://restaurant-api.dicoding.dev/images/medium/${randomRestaurant.pictureId}";
+
+    final String imagePath = await _httpService.downloadAndSaveFile(
+      restaurantImage,
+      "restaurant_$restaurantId.jpg",
+    );
+
+    final bigPictureStyle = BigPictureStyleInformation(
+      FilePathAndroidBitmap(imagePath),
+      contentTitle: "Lunch Time!",
+      summaryText: "$restaurantName is highly recommended today!",
+    );
+
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       channelId,
       channelName,
       importance: Importance.max,
       priority: Priority.high,
-      ticker: 'ticker',
+      styleInformation: bigPictureStyle,
+      largeIcon: FilePathAndroidBitmap(imagePath),
     );
+
     const iOSPlatformChannelSpecifics = DarwinNotificationDetails();
 
     final notificationDetails = NotificationDetails(
@@ -103,16 +130,15 @@ class LocalNotificationService {
       iOS: iOSPlatformChannelSpecifics,
     );
 
-    final datetimeSchedule = _nextInstanceOfElevenAM();
-
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
-      'Lunch Reminder',
-      "It's 11:00 AM. Time to take a lunch break.",
+      'Lunch Time!',
+      'We recommend $restaurantName for your lunch today!",',
       datetimeSchedule,
       notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
+      payload: restaurantId,
     );
   }
 
