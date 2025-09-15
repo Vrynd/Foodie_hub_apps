@@ -3,7 +3,6 @@ import 'package:restaurant_app/provider/index_nav_provider.dart';
 import 'package:restaurant_app/screens/favorite_screen.dart';
 import 'package:restaurant_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/screens/notification_screen.dart';
 import 'package:restaurant_app/screens/setting_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -22,8 +21,7 @@ class _MainScreenState extends State<MainScreen> {
           return switch (value.indexBottomNavBar) {
             0 => const HomeScreen(),
             1 => const FavoriteScreen(),
-            2 => const NotificationScreen(),
-            3 => const SettingScreen(),
+            2 => const SettingScreen(),
             _ => const HomeScreen(),
           };
         },
@@ -40,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         child: NavigationBar(
-          elevation: 0, 
+          elevation: 0,
           labelTextStyle: WidgetStatePropertyAll(
             Theme.of(context).textTheme.labelLarge?.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
@@ -85,20 +83,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
               label: "Favorite",
               tooltip: "Favorite",
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.notifications_on_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              selectedIcon: Icon(
-                Icons.notifications_on_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              label: "Reminder",
-              tooltip: "Reminder",
             ),
             NavigationDestination(
               icon: Icon(
