@@ -120,10 +120,15 @@ class MyApp extends StatelessWidget {
           routes: {
             NavigationRoute.mainRoute.name: (context) => const MainScreen(),
             NavigationRoute.detailRoute.name: (context) {
-              final payload = context.watch<PayloadProvider>().payload;
-              if (payload != null) {
-                return DetailScreen(restaurantId: payload);
+              final args =
+                  ModalRoute.of(context)!.settings.arguments as String?;
+              if (args != null) {
+                return DetailScreen(restaurantId: args);
               } else {
+                final payload = context.watch<PayloadProvider>().payload;
+                if (payload != null) {
+                  return DetailScreen(restaurantId: payload);
+                }
                 return const MainScreen();
               }
             },
