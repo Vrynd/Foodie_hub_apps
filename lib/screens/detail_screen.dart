@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/components/app_bar.dart';
 import 'package:restaurant_app/components/detail_items.dart';
+import 'package:restaurant_app/components/error_handling_api.dart';
 import 'package:restaurant_app/components/header_detail.dart';
 import 'package:restaurant_app/components/menu_items.dart';
 import 'package:restaurant_app/components/review.dart';
 import 'package:restaurant_app/provider/detail_provider.dart';
-import 'package:restaurant_app/provider/payload_provider.dart';
 import 'package:restaurant_app/resource/detail_result_state.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -17,7 +17,6 @@ class DetailScreen extends StatefulWidget {
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
-
 class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
@@ -31,7 +30,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final data = context.read<PayloadProvider>().payload;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       appBar: AppBarTemplate(
@@ -60,44 +58,68 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Consumer<RestaurantDetailProvider>(
           builder: (context, provider, child) {
             final state = provider.resultState;
-            return switch (state) {
-              DetailLoadingState() => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              DetailErrorState(error: var errorMsg) => Center(
-                child: Text(errorMsg),
-              ),
-              DetailLoadedState(data: var restaurant) => SingleChildScrollView(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 16,
+            switch (state) {
+              case DetailLoadingState():
+                return const Center(child: CircularProgressIndicator());
+
+              case DetailErrorState(error: var errorMsg):
+                final errorState = errorMsg.toLowerCase();
+                String title;
+                IconData icon;
+
+                if (errorState.contains('no internet')) {
+                  title = 'No Internet Connection';
+                  icon = Icons.wifi_off;
+                } else if (errorState.contains('request timeout')) {
+                  title = 'Request Timeout';
+                  icon = Icons.access_time;
+                } else {
+                  title = 'Something went wrong';
+                  icon = Icons.error;
+                }
+
+                return ErrorHandlingApi(
+                  title: title,
+                  message: errorMsg.replaceAll('Exception: ', ''),
+                  iconData: icon,
+                  onRetry: () {
+                    context
+                        .read<RestaurantDetailProvider>()
+                        .fetchRestaurantDetail(widget.restaurantId);
+                    ();
+                  },
+                );
+
+              case DetailLoadedState(data: var restaurant):
+                return SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 16,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DetailImage(
+                          pictureId: restaurant.pictureId,
+                          rating: restaurant.rating,
+                          categories: restaurant.categories,
+                        ),
+                        const SizedBox(height: 10),
+                        DetailItems(restaurantDetail: restaurant),
+                        const SizedBox(height: 10),
+                        MenuItems(menus: restaurant.menus),
+                        const SizedBox(height: 10),
+                        CustomerReview(reviews: restaurant.customerReviews),
+                        const SizedBox(height: 10),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      DetailImage(
-                        pictureId: restaurant.pictureId,
-                        rating: restaurant.rating,
-                        categories: restaurant.categories,
-                      ),
-                      const SizedBox(height: 10),
-                      DetailItems(restaurantDetail: restaurant),
-                      const SizedBox(height: 10),
-                      MenuItems(menus: restaurant.menus),
-                      const SizedBox(height: 10),
-                      CustomerReview(reviews: restaurant.customerReviews),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Payload: $data",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              _ => const Center(child: Text('Data Belum Tersedia')),
-            };
+                );
+
+              default:
+                return const Center(child: Text('Unable to load data'));
+            }
           },
         ),
       ),
