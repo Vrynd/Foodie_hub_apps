@@ -28,7 +28,9 @@ class MenuItems extends StatelessWidget {
                     ? Colors.orange.shade700
                     : Colors.orange.shade300,
               ),
+
               const SizedBox.square(dimension: 8),
+
               Text(
                 'Food Menu',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -37,7 +39,9 @@ class MenuItems extends StatelessWidget {
               ),
             ],
           ),
+
           const SizedBox(height: 12),
+
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
@@ -57,11 +61,13 @@ class MenuItems extends StatelessWidget {
                       padding: EdgeInsets.only(right: 8.0),
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                          vertical: 26,
+                          vertical: 20,
                           horizontal: 16,
                         ),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerLowest,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Align(
@@ -85,7 +91,9 @@ class MenuItems extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+
+          const SizedBox.square(dimension: 20),
+
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -106,7 +114,9 @@ class MenuItems extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+
+          const SizedBox.square(dimension: 12),
+
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
@@ -126,7 +136,7 @@ class MenuItems extends StatelessWidget {
                       padding: EdgeInsets.only(right: 8.0),
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                          vertical: 26,
+                          vertical: 20,
                           horizontal: 16,
                         ),
                         decoration: BoxDecoration(

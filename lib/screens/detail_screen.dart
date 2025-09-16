@@ -54,6 +54,7 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
         centerTitle: true,
       ),
+
       body: SafeArea(
         child: Consumer<RestaurantDetailProvider>(
           builder: (context, provider, child) {

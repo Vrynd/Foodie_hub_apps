@@ -63,6 +63,7 @@ class EmptyFavorite extends StatelessWidget {
                             color: Theme.of(
                               context,
                             ).colorScheme.onSurfaceVariant,
+                            fontStyle: FontStyle.italic,
                           ),
                     ),
                   ],

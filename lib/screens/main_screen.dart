@@ -26,80 +26,68 @@ class _MainScreenState extends State<MainScreen> {
           };
         },
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: Theme.of(
-                context,
-              ).colorScheme.outlineVariant,
-              width: 1.0,
-            ),
+      bottomNavigationBar: NavigationBar(
+        elevation: 1.0,
+        labelTextStyle: WidgetStatePropertyAll(
+          Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
-        child: NavigationBar(
-          elevation: 0,
-          labelTextStyle: WidgetStatePropertyAll(
-            Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-          shadowColor: Theme.of(context).colorScheme.shadow,
-          indicatorShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          indicatorColor: Theme.of(context).colorScheme.secondaryContainer,
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
-          selectedIndex: context.watch<IndexNavProvider>().indexBottomNavBar,
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          onDestinationSelected: (index) {
-            context.read<IndexNavProvider>().indextBottomNavBar = index;
-          },
-          destinations: [
-            NavigationDestination(
-              icon: Icon(
-                Icons.home_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              selectedIcon: Icon(
-                Icons.home_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              label: "Home",
-              tooltip: "Home",
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.bookmark_border_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              selectedIcon: Icon(
-                Icons.bookmark_border_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              label: "Favorite",
-              tooltip: "Favorite",
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.settings_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              selectedIcon: Icon(
-                Icons.settings_outlined,
-                size: 28,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              label: "Setting",
-              tooltip: "Setting",
-            ),
-          ],
+        shadowColor: Theme.of(context).colorScheme.surfaceContainer,
+        indicatorShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
         ),
+        indicatorColor: Theme.of(context).colorScheme.secondaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
+        selectedIndex: context.watch<IndexNavProvider>().indexBottomNavBar,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        onDestinationSelected: (index) {
+          context.read<IndexNavProvider>().indextBottomNavBar = index;
+        },
+        destinations: [
+          NavigationDestination(
+            icon: Icon(
+              Icons.home_outlined,
+              size: 28,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            selectedIcon: Icon(
+              Icons.home_outlined,
+              size: 28,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            label: "Home",
+            tooltip: "Home",
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.bookmark_border_outlined,
+              size: 28,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            selectedIcon: Icon(
+              Icons.bookmark_border_outlined,
+              size: 28,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            label: "Favorite",
+            tooltip: "Favorite",
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.settings_outlined,
+              size: 28,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+            selectedIcon: Icon(
+              Icons.settings_outlined,
+              size: 28,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            label: "Setting",
+            tooltip: "Setting",
+          ),
+        ],
       ),
     );
   }

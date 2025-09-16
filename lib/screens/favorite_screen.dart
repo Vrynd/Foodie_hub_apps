@@ -34,6 +34,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           ),
         ),
       ),
+
       body: SafeArea(
         child: Consumer<LocalDatabaseProvider>(
           builder: (context, value, child) {
