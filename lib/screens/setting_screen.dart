@@ -4,6 +4,7 @@ import 'package:restaurant_app/components/app_bar.dart';
 import 'package:restaurant_app/components/header.dart';
 import 'package:restaurant_app/components/list_setting.dart';
 import 'package:restaurant_app/data/models/setting.dart';
+import 'package:restaurant_app/provider/local_notification_provider.dart';
 import 'package:restaurant_app/provider/schedule_preference_provider.dart';
 import 'package:restaurant_app/provider/theme_preferences_provider.dart';
 
@@ -57,9 +58,19 @@ class _SettingScreenState extends State<SettingScreen> {
       isEnabled: isEnabled,
     );
     final scheduleProvider = context.read<ScheduleProvider>();
+    final notificationProvider = context.read<LocalNotificationProvider>();
     final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     await scheduleProvider.saveSettingValue(set);
+
+    if (isEnabled) {
+      await notificationProvider.requestPermission();
+      if (notificationProvider.permission == true) {
+        notificationProvider.scheduleDailyElevenAMNotification();
+      }
+    } else {
+      await notificationProvider.cancelNotification();
+    }
 
     final scheduleText = isEnabled
         ? "Daily reminder activated"

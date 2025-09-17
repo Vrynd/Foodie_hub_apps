@@ -154,7 +154,7 @@ class LocalNotificationService {
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
       'Lunch Time!',
-      'We recommend $restaurantName for your lunch today!",',
+      'We recommend $restaurantName for your lunch today!',
       datetimeSchedule,
       notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
