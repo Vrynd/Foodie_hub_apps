@@ -76,7 +76,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   icon = Icons.access_time;
                 } else {
                   title = 'Something went wrong';
-                  icon = Icons.error;
+                  icon = Icons.error_outline;
                 }
 
                 return ErrorHandlingApi(

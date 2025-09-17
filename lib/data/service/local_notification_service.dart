@@ -97,13 +97,12 @@ class LocalNotificationService {
       now.year,
       now.month,
       now.day,
-      11,
+      12,
     );
 
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
-
     return scheduledDate;
   }
 
@@ -160,7 +159,7 @@ class LocalNotificationService {
       notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
-      payload: restaurantId,
+      payload: restaurantId.toString(),
     );
   }
 

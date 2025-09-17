@@ -80,7 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   icon = Icons.access_time;
                 } else {
                   title = 'Something went wrong';
-                  icon = Icons.error;
+                  icon = Icons.error_outline;
                 }
 
                 return ErrorHandlingApi(

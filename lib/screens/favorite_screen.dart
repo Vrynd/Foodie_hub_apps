@@ -68,7 +68,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               return EmptyHandlingInterface(
                 header: Header(
                   title: 'Your Favorites',
-                  subtitle: 'Restaurants you love the most",',
+                  subtitle: 'All the restaurants you liked',
                 ),
                 iconHeader: Icons.bookmarks_outlined,
                 title: 'No Favorite Yet',

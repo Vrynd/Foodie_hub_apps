@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon = Icons.access_time;
                 } else {
                   title = 'Something went wrong';
-                  icon = Icons.error;
+                  icon = Icons.error_outline;
                 }
 
                 return ErrorHandlingApi(
