@@ -63,8 +63,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                   isLoading: state is SearchLoadingState,
                   iconHeader: Icons.search_outlined,
-                  title: 'No Search Yet',
-                  description: 'Enter a keywoard to search',
+                  title: 'Let’s Find Something!',
+                  description: 'Start typing a keyword above to find restaurants.',
                 );
 
               case SearchErrorState(error: var error):
@@ -105,7 +105,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     iconHeader: Icons.search_off_outlined,
                     title: 'No Result Found',
-                    description: 'Try searching with anothing keyword',
+                    description: 'Try searching with a different keyword or spelling',
                   );
                 } else {
                   return ListView.builder(
