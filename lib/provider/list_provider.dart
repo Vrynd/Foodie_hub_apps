@@ -9,7 +9,7 @@ class RestaurantListProvider extends ChangeNotifier {
   RestaurantListResultState _resultState = ListNoneState();
   RestaurantListResultState get resultState => _resultState;
 
-  Future<void> fetchRestaurantList([String querySearch = '']) async {
+  Future<void> fetchRestaurantList() async {
     try {
       _resultState = ListLoadingState();
       notifyListeners();

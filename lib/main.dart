@@ -14,6 +14,7 @@ import 'package:restaurant_app/provider/local_database_provider.dart';
 import 'package:restaurant_app/provider/local_notification_provider.dart';
 import 'package:restaurant_app/provider/payload_provider.dart';
 import 'package:restaurant_app/provider/schedule_preference_provider.dart';
+import 'package:restaurant_app/provider/search_provider.dart';
 import 'package:restaurant_app/provider/theme_preferences_provider.dart';
 import 'package:restaurant_app/screens/detail_screen.dart';
 import 'package:restaurant_app/screens/main_screen.dart';
@@ -81,6 +82,10 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) =>
               LocalDatabaseProvider(context.read<LocalDatabaseService>()),
+        ),
+
+        ChangeNotifierProvider(
+          create: (context) => RestaurantSearchProvider(ApiService()),
         ),
 
         ChangeNotifierProvider(create: (context) => FavoriteIconProvider()),
