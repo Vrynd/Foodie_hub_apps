@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/components/app_bar.dart';
-import 'package:restaurant_app/components/empty_favorite.dart';
+import 'package:restaurant_app/components/empty_handling_ui.dart';
 import 'package:restaurant_app/components/header.dart';
-import 'package:restaurant_app/components/list_items.dart';
+import 'package:restaurant_app/components/list_favorite.dart';
 import 'package:restaurant_app/provider/local_database_provider.dart';
-import 'package:restaurant_app/routes/app_route.dart';
+
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
 
@@ -37,8 +37,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
       body: SafeArea(
         child: Consumer<LocalDatabaseProvider>(
-          builder: (context, value, child) {
-            final favoriteList = value.restaurantList ?? [];
+          builder: (context, provider, child) {
+            final favoriteList = provider.restaurantList ?? [];
             if (favoriteList.isNotEmpty) {
               return ListView.builder(
                 padding: const EdgeInsets.symmetric(
@@ -61,23 +61,20 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   }
 
                   final restoFav = favoriteList[index - 1];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: ListItems(
-                      restaurant: restoFav,
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          NavigationRoute.detailRoute.name,
-                          arguments: restoFav.id,
-                        );
-                      },
-                    ),
-                  );
+                  return ListFavorite(restoFav: restoFav);
                 },
               );
             } else {
-              return EmptyFavorite();
+              return EmptyHandlingInterface(
+                header: Header(
+                  title: 'Your Favorites',
+                  subtitle: 'Restaurants you love the most",',
+                ),
+                iconHeader: Icons.bookmarks_outlined,
+                title: 'No Favorite Yet',
+                description:
+                    'Start exploring restaurants and add them to your favorites!",',
+              );
             }
           },
         ),
@@ -85,4 +82,3 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     );
   }
 }
-

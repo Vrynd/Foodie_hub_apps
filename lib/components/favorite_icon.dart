@@ -32,6 +32,10 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton.outlined(
+      iconSize: 26,
+      style: IconButton.styleFrom(
+        side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+      ),
       onPressed: () async {
         final localDatabaseProvider = context.read<LocalDatabaseProvider>();
         final favoriteIconProvider = context.read<FavoriteIconProvider>();
@@ -39,6 +43,22 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
 
         if (!isFavorited) {
           await localDatabaseProvider.addFavorite(widget.restaurantList);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '${widget.restaurantList.name} added to favorites',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              duration: const Duration(seconds: 1),
+            ),
+          );
         } else {
           await localDatabaseProvider.removeRestaurantById(
             widget.restaurantList.id,
@@ -53,11 +73,11 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
             : Icons.bookmark_border,
         color: context.watch<FavoriteIconProvider>().isFavorites
             ? (Theme.of(context).brightness == Brightness.light
-                  ? Colors.red.shade700
-                  : Colors.red.shade300)
-            : (Theme.of(context).brightness == Brightness.light
                   ? Colors.grey.shade400
-                  : Colors.grey.shade500),
+                  : Colors.grey.shade500)
+            : (Theme.of(context).brightness == Brightness.light
+                  ? Colors.pink.shade600
+                  : Colors.pink.shade300),
       ),
     );
   }
