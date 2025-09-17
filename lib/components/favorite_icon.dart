@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/models/request/request.dart';
 import 'package:restaurant_app/provider/favorite_icon_provider.dart';
-import 'package:restaurant_app/provider/favorite_provider.dart';
+import 'package:restaurant_app/provider/local_database_provider.dart';
 
 class FavoriteIconButton extends StatefulWidget {
   final RestaurantList restaurantList;
@@ -16,38 +16,68 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   @override
   void initState() {
     super.initState();
-    final favoriteListProvider  = context.read<FavoriteProvider>();
+    final localDatabaseProvider = context.read<LocalDatabaseProvider>();
     final favoriteIconProvider = context.read<FavoriteIconProvider>();
 
-    Future.microtask(() {
-      final restoInList = favoriteListProvider.checkItemFavorite(
-        widget.restaurantList,
+    Future.microtask(() async {
+      await localDatabaseProvider.loadRestaurantById(widget.restaurantList.id);
+      final value = localDatabaseProvider.checkItemFavorite(
+        widget.restaurantList.id,
       );
-      favoriteIconProvider.isFavorite = restoInList;
+      favoriteIconProvider.isFavorite = value;
     });
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return IconButton.outlined(
-      onPressed: () {
-        final favoriteListProvider = context.read<FavoriteProvider>();
+      iconSize: 26,
+      style: IconButton.styleFrom(
+        side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+      ),
+      onPressed: () async {
+        final localDatabaseProvider = context.read<LocalDatabaseProvider>();
         final favoriteIconProvider = context.read<FavoriteIconProvider>();
-        final isFormated = favoriteIconProvider.isFavorites;
+        final isFavorited = favoriteIconProvider.isFavorites;
 
-        if (isFormated) {
-          favoriteListProvider.removeBookmark(widget.restaurantList);
+        if (!isFavorited) {
+          await localDatabaseProvider.addFavorite(widget.restaurantList);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '${widget.restaurantList.name} added to favorites',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              duration: const Duration(seconds: 1),
+            ),
+          );
         } else {
-          favoriteListProvider.addBookmark(widget.restaurantList);
+          await localDatabaseProvider.removeRestaurantById(
+            widget.restaurantList.id,
+          );
         }
-        favoriteIconProvider.isFavorite = !isFormated;
+        favoriteIconProvider.isFavorite = !isFavorited;
+        localDatabaseProvider.loadAllRestaurant();
       },
       icon: Icon(
         context.watch<FavoriteIconProvider>().isFavorites
-            ? Icons.favorite_rounded
-            : Icons.favorite_border_rounded,
+            ? Icons.bookmark
+            : Icons.bookmark_border,
+        color: context.watch<FavoriteIconProvider>().isFavorites
+            ? (Theme.of(context).brightness == Brightness.light
+                  ? Colors.grey.shade400
+                  : Colors.grey.shade500)
+            : (Theme.of(context).brightness == Brightness.light
+                  ? Colors.pink.shade600
+                  : Colors.pink.shade300),
       ),
     );
   }

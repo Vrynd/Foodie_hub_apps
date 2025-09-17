@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
-  const Header({super.key});
+  final String? title;
+  final String? subtitle;
+  final Widget? child;
+  const Header({super.key, this.title, this.subtitle, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -10,23 +13,27 @@ class Header extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(16.0),
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+        color: Theme.of(context).colorScheme.surfaceContainer,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Hello!',
+            title ?? 'Hello!',
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           Text(
-            'What do you want to eat today?',
+            subtitle ?? 'What do you want to eat today?',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
+          if (child != null) ...[
+            const SizedBox.square(dimension: 20),
+            child ?? Container(),
+          ],
         ],
       ),
     );

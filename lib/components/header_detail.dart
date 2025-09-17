@@ -32,30 +32,31 @@ class DetailImage extends StatelessWidget {
           child: Align(
             alignment: Alignment.topRight,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(20.0),
                 color: Theme.of(context).colorScheme.surfaceContainerLowest,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 4.0,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.8),
-                    offset: Offset(1, 1),
-                  ),
-                ],
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  width: 1.3,
+                ),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.star, size: 24, color: Colors.amber[500]),
-                  const SizedBox.square(dimension: 4),
+                  Icon(
+                    Icons.star_outlined,
+                    size: 26,
+                    color: (Theme.of(context).brightness == Brightness.light
+                        ? Colors.amber.shade500
+                        : Colors.amber.shade300),
+                  ),
+                  const SizedBox.square(dimension: 6),
                   Text(
                     rating.toString(),
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
