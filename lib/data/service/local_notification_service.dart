@@ -97,7 +97,7 @@ class LocalNotificationService {
       now.year,
       now.month,
       now.day,
-      12,
+      11,
     );
 
     if (scheduledDate.isBefore(now)) {
